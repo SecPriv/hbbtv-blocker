@@ -12,5 +12,8 @@ The following repository contains the code for the HbbTV Blocker presented at ND
 }
 ```
 
+#### NOTE:
+Code is still under work in progress for clean-up and adaptation to new library versions. If interested in it (or in the datasets), please contact us (contact information below).
+
 ### Contact Information:
 Carlotta Tagliaro, TUWien (<carlotta@seclab.wien> or <carlotta.tagliaro@tuwien.ac.at>)
