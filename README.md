@@ -12,8 +12,21 @@ The following repository contains the code for the HbbTV Blocker presented at ND
 }
 ```
 
+## How to run the tool
+The tool is based on Django; We adopt Python > v3. Please install with:
+
+```
+$ python3 -m pip install Django
+```
+Then run:
+```
+$ sudo python3 manage.py runserver
+```
+And then navigate to: [http://127.0.0.1:8000/](http://127.0.0.1:8000/).
+
 #### NOTE:
-Code is still under work in progress for clean-up and adaptation to new library versions. If interested in it (or in the datasets), please contact us (contact information below).
+Code is still under work in progress for clean-up and adaptation to new library versions. Some functionalities might be still broken, e.g., with older iptables versions it was possible to specify a domain pattern to block (removed in recent versions). If interested in more details or in the traffic PCAPs for the channels we analyzed, please contact us (contact information below).
+
 
 ### Contact Information:
 Carlotta Tagliaro, TUWien (<carlotta@seclab.wien> or <carlotta.tagliaro@tuwien.ac.at>)
