@@ -1,0 +1,397 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Configuration Dashboard {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+<script>
+  window.onload = function (e) {
+    set_previous_config()
+    set_previous_http()
+    make_active("dashboard")
+  }
+
+</script>
+
+<div style="display: none" id="plot_data" data-json="{{ plot_data }}"></div>
+<div style="display: none" id="previous_config" data-json="{{ previous_config }}"></div>
+<div style="display: none" id="http_config" data-json="{{ http_config }}"></div>
+
+<div class="row">
+  <p class="blockquote blockquote-primary" style="width: 100%; text-align: center;">For more information concerning the features of the
+    dashboard, refer to the <a href="/about">About</a> page.
+  </p>
+</div>
+
+<div class="row">
+  <div class="card card-chart">
+    <div class="card-header ">
+      <div class="row">
+        <div class="text-left" style="width: 100%; margin-left: 20px; margin-right: 20px;">
+          <h2 class="card-title">Enable Default Secure Configuration</h2>
+          <p class="text-primary">By enabling the default configuration all channels will be set to No Tracking, thus
+            blocking all domains associated with tracking and profiling. Additionally, all plaintext, unencrypted (HTTP)
+            traffic will be blocked. The viewing experience might be altered to ensure security and privacy.</p>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <form id="default_config" name="default_config" method="POST" action="#">
+        {% csrf_token %}
+        <div class="btn-group btn-group-toggle" style="margin-left: 10px;" data-toggle="buttons">
+          <label class="btn btn-sm btn-primary btn-simple" onclick="default_secure_config('default_on')"
+            id="default_on">
+            <input type="radio" name="options" checked value="default_yes">
+            <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block" title="Enable">Enable</span>
+          </label>
+          <label class="btn btn-sm btn-primary btn-simple active" onclick="default_secure_config('default_off')"
+            id="default_off">
+            <input type="radio" class="d-none d-sm-none" name="options" value="default_no">
+            <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block" title="Disable">Disable</span>
+          </label>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="card ">
+    <div class="card-header">
+      <h2 class="card-title"> Channel List</h2>
+      <h6 class="card-title">Available Modalities: Allow All (Allow), Block Tracking (No Track), Block All (Block)</h6>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table tablesorter " id="">
+          <thead class=" text-primary">
+            <tr>
+              <th>
+                Name
+              </th>
+              <th>
+                Permissions
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <form id="channel_settings" name="channel_settings" method="POST" action="#">
+              {% csrf_token %}
+              <tr>
+
+                <td>
+                  Rai (Rai 1, Rai Premium)
+                </td>
+                <td>
+                  <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                    <label class="btn btn-sm btn-primary btn-simple active" id="rai_0"
+                      onclick="channel_config_submit('Rai', 'allow');">
+                      <input type="radio" name="options" checked>
+                      <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block" title="All">Allow</span>
+                    </label>
+                    <label class="btn btn-sm btn-primary btn-simple" id="rai_1"
+                      onclick="channel_config_submit('Rai', 'noTrack');">
+                      <input type="radio" class="d-none d-sm-none" name="options">
+                      <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block" title="NoTrack">NoTrack</span>
+                    </label>
+                    <label class="btn btn-sm btn-primary btn-simple" id="rai_2"
+                      onclick="channel_config_submit('Rai', 'block');">
+                      <input type="radio" class="d-none" name="options">
+                      <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block" title="Block">Block</span>
+                    </label>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  Mediaset (Canale 5, TGCOM24)
+                </td>
+                <td>
+                  <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                    <label class="btn btn-sm btn-primary btn-simple active" id="mediaset_0"
+                      onclick="channel_config_submit('Mediaset', 'allow');">
+                      <input type="radio" name="options" checked>
+                      <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block" title="All">Allow</span>
+                    </label>
+                    <label class="btn btn-sm btn-primary btn-simple" id="mediaset_1"
+                      onclick="channel_config_submit('Mediaset', 'noTrack');">
+                      <input type="radio" class="d-none d-sm-none" name="options">
+                      <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block" title="NoTrack">NoTrack</span>
+                    </label>
+                    <label class="btn btn-sm btn-primary btn-simple" id="mediaset_2"
+                      onclick="channel_config_submit('Mediaset', 'block');">
+                      <input type="radio" class="d-none" name="options">
+                      <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block" title="Block">Block</span>
+                    </label>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  Radio Kiss Kiss
+                </td>
+                <td>
+                  <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                    <label class="btn btn-sm btn-primary btn-simple active" id="rkk_0"
+                      onclick="channel_config_submit('RadioKissKiss', 'allow');">
+                      <input type="radio" name="options" checked>
+                      <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block" title="All">Allow</span>
+                    </label>
+                    <label class="btn btn-sm btn-primary btn-simple" id="rkk_1"
+                      onclick="channel_config_submit('RadioKissKiss', 'noTrack');">
+                      <input type="radio" class="d-none d-sm-none" name="options">
+                      <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block" title="NoTrack">NoTrack</span>
+                    </label>
+                    <label class="btn btn-sm btn-primary btn-simple" id="rkk_2"
+                      onclick="channel_config_submit('RadioKissKiss', 'block');">
+                      <input type="radio" class="d-none" name="options">
+                      <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block" title="Block">Block</span>
+                    </label>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  SportItalia
+                </td>
+                <td>
+                  <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                    <label class="btn btn-sm btn-primary btn-simple active" id="sportitalia_0"
+                      onclick="channel_config_submit('Sportitalia', 'allow');">
+                      <input type="radio" name="options" checked>
+                      <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block" title="All">Allow</span>
+                    </label>
+                    <label class="btn btn-sm btn-primary btn-simple" id="sportitalia_1"
+                      onclick="channel_config_submit('Sportitalia', 'noTrack');">
+                      <input type="radio" class="d-none d-sm-none" name="options">
+                      <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block" title="NoTrack">NoTrack</span>
+                    </label>
+                    <label class="btn btn-sm btn-primary btn-simple" id="sportitalia_2"
+                      onclick="channel_config_submit('Sportitalia', 'block');">
+                      <input type="radio" class="d-none" name="options">
+                      <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block" title="Block">Block</span>
+                    </label>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  RDS
+                </td>
+                <td>
+                  <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                    <label class="btn btn-sm btn-primary btn-simple active" id="rds_0"
+                      onclick="channel_config_submit('RDS', 'allow');">
+                      <input type="radio" name="options" checked>
+                      <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block" title="All">Allow</span>
+                    </label>
+                    <label class="btn btn-sm btn-primary btn-simple" id="rds_1"
+                      onclick="channel_config_submit('RDS', 'noTrack');">
+                      <input type="radio" class="d-none d-sm-none" name="options">
+                      <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block" title="NoTrack">NoTrack</span>
+                    </label>
+                    <label class="btn btn-sm btn-primary btn-simple" id="rds_2"
+                      onclick="channel_config_submit('RDS', 'block');">
+                      <input type="radio" class="d-none" name="options">
+                      <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block" title="Block">Block</span>
+                    </label>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  RTL
+                </td>
+                <td>
+                  <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                    <label class="btn btn-sm btn-primary btn-simple active" id="rtl_0"
+                      onclick="channel_config_submit('RTL', 'allow');">
+                      <input type="radio" name="options" checked>
+                      <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block" title="All">Allow</span>
+                    </label>
+                    <label class="btn btn-sm btn-primary btn-simple" id="rtl_1"
+                      onclick="channel_config_submit('RTL', 'noTrack');">
+                      <input type="radio" class="d-none d-sm-none" name="options">
+                      <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block" title="NoTrack">NoTrack</span>
+                    </label>
+                    <label class="btn btn-sm btn-primary btn-simple" id="rtl_2"
+                      onclick="channel_config_submit('RTL', 'block');">
+                      <input type="radio" class="d-none" name="options">
+                      <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block" title="Block">Block</span>
+                    </label>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  Discovery (RealTime, MotorTrend)
+                </td>
+                <td>
+                  <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                    <label class="btn btn-sm btn-primary btn-simple active" id="discovery_0"
+                      onclick="channel_config_submit('Discovery', 'allow');">
+                      <input type="radio" name="options" checked>
+                      <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block" title="All">Allow</span>
+                    </label>
+                    <label class="btn btn-sm btn-primary btn-simple" id="discovery_1"
+                      onclick="channel_config_submit('Discovery', 'noTrack');">
+                      <input type="radio" class="d-none d-sm-none" name="options">
+                      <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block" title="NoTrack">NoTrack</span>
+                    </label>
+                    <label class="btn btn-sm btn-primary btn-simple" id="discovery_2"
+                      onclick="channel_config_submit('Discovery', 'block');">
+                      <input type="radio" class="d-none" name="options">
+                      <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block" title="Block">Block</span>
+                    </label>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  Paramount Network (Spike, Paramount)
+                </td>
+                <td>
+                  <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                    <label class="btn btn-sm btn-primary btn-simple active" id="paramount_0"
+                      onclick="channel_config_submit('ParamountNetwork', 'allow');">
+                      <input type="radio" name="options" checked>
+                      <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block" title="All">Allow</span>
+                    </label>
+                    <label class="btn btn-sm btn-primary btn-simple" id="paramount_1"
+                      onclick="channel_config_submit('ParamountNetwork', 'noTrack');">
+                      <input type="radio" class="d-none d-sm-none" name="options">
+                      <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block" title="NoTrack">NoTrack</span>
+                    </label>
+                    <label class="btn btn-sm btn-primary btn-simple" id="paramount_2"
+                      onclick="channel_config_submit('ParamountNetwork', 'block');">
+                      <input type="radio" class="d-none" name="options">
+                      <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block" title="Block">Block</span>
+                    </label>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  Cairo Communication (La7)
+                </td>
+                <td>
+                  <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                    <label class="btn btn-sm btn-primary btn-simple active" id="cairo_0"
+                      onclick="channel_config_submit('Cairo', 'allow');">
+                      <input type="radio" name="options" checked>
+                      <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block" title="All">Allow</span>
+                    </label>
+                    <label class="btn btn-sm btn-primary btn-simple" id="cairo_1"
+                      onclick="channel_config_submit('Cairo', 'noTrack');">
+                      <input type="radio" class="d-none d-sm-none" name="options">
+                      <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block" title="NoTrack">NoTrack</span>
+                    </label>
+                    <label class="btn btn-sm btn-primary btn-simple" id="cairo_2"
+                      onclick="channel_config_submit('Cairo', 'block');">
+                      <input type="radio" class="d-none" name="options">
+                      <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block" title="Block">Block</span>
+                    </label>
+                  </div>
+                </td>
+              </tr>
+            </form>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="card card-chart">
+    <div class="card-header ">
+      <div class="row">
+        <div class="col-sm-6 text-left">
+          <h2 class="card-title">HTTP Settings</h2>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <table class="table tablesorter ">
+        <thead class=" text-primary">
+          <tr>
+            <th style="width: 60%;">
+              Allow incoming plaintext/unencrypted requests?
+            </th>
+            <th>
+              <form id="http_settings" name="http_settings" method="POST" action="#">
+                {% csrf_token %}
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                  <label class="btn btn-sm btn-primary btn-simple active" onclick="http_config_submit('allow_http');"
+                    id="allow_http">
+                    <input type="radio" name="options" checked value="http_yes">
+                    <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block" title="Allow">Allow</span>
+                  </label>
+                  <label class="btn btn-sm btn-primary btn-simple" onclick="http_config_submit('block_http');"
+                    id="block_http">
+                    <input type="radio" class="d-none d-sm-none" name="options" value="http_no">
+                    <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block" title="Block">Block</span>
+                  </label>
+                </div>
+              </form>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="card card-chart">
+    <div class="card-header ">
+      <div class="row">
+        <div class="col-sm-6 text-left">
+          <h2 class="card-title">Number of Blocked Requests per Channel</h2>
+        </div>
+
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="bootstrap-select" style="margin-bottom: 20px; margin-left: 50px;">
+        <select class="selectpicker" data-style="btn btn-primary" name="channels" id="channels"
+          style="color: rgb(82, 95, 127);" onchange="onChangeSelect()">
+          <option value="Rai">Rai</option>
+          <option value="Mediaset">Mediaset</option>
+          <option value="RadioKissKiss">RadioKissKiss</option>
+          <option value="Sportitalia">Sportitalia</option>
+          <option value="RDS">RDS</option>
+          <option value="RTL">RTL</option>
+          <option value="Discovery">Discovery</option>
+          <option value="ParamountNetwork">ParamountNetwork</option>
+          <option value="Cairo">Cairo</option>
+        </select>
+      </div>
+      <div class="chart-area" id="chart-area">
+        <canvas id="chartBig1"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+<script>
+  $(document).ready(function () {
+    // Javascript method's body can be found in assets/js/demos.js
+    demo.initDashboardPageCharts();
+
+  });
+</script>
+
+{% endblock javascripts %}

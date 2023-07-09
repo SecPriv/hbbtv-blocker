@@ -1,0 +1,10 @@
+dt-external-217593033.us-east-1.elb.amazonaws.com
+adservice
+doubleclick
+googlesyndication
+pagead-googlehosted
+googletagservices
+stati-stati-5vqsw3ctlefo-93594259.eu-west-1.elb.amazonaws.com
+imasdk.googleapis.com
+firewall-external-2134955858.eu-west-1.elb.amazonaws.com
+adsafeprotected

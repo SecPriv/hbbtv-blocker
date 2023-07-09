@@ -1,0 +1,13 @@
+ec2-52-211-75-222.eu-west-1.compute.amazonaws.com
+kineton
+e28038.b.akamaiedge.net
+a1807.dscd.akamai.net
+polyfill.io
+rawgit.com
+server-13-226-162-39.mxp64.r.cloudfront.net
+server-13-226-162-9.mxp64.r.cloudfront.net
+smartclip
+pro.ip-api.com
+d3f5f8gxf0h2y2.cloudfront.net
+dzo7dhlniiuh5.cloudfront.net
+app-measurement.com

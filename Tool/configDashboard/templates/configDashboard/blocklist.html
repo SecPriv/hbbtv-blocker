@@ -1,0 +1,90 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Configuration Dashboard {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+<script>
+    window.onload = function (e) {
+        make_active("blocklist_settings")
+    }
+
+</script>
+
+<div class="row">
+    <div class="card ">
+        <div class="card-header">
+            <h2 class="card-title"> Blocked Domain List</h2>
+            <h6 class="card-title">Add here the domains you want to block</h6>
+
+
+            <button class="btn btn-link" id="search-button" data-toggle="modal" data-target="#searchModal"
+                style="display: inline-flex;">
+                <p>Click to Add: </p>
+                <i class="tim-icons icon-simple-add" style="padding-left: 6px; color: #e14eca;"></i>
+            </button>
+
+            <div class="modal modal-search fade" id="searchModal" tabindex="-1" role="dialog"
+                aria-labelledby="searchModal" style="display: none;" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content" style="margin: auto; width: 500px;">
+                        <div class="modal-header">
+                            <input type="text" class="form-control" id="inlineFormInputGroup"
+                                placeholder="INSERT DOMAIN">
+                            <button type="button" class="close" id="close_modal">
+                                <i class="tim-icons icon-upload"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table tablesorter " id="">
+                    <thead class=" text-primary">
+                        <tr>
+                            <th>
+                                Name
+                            </th>
+                            <th>
+                                Delete
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body">
+                        <form id="form_blocklist_settings" name="form_blocklist_settings" method="POST" action="#">
+                            {% csrf_token %}
+                            <tr id="google-analytics">
+                                <td>
+                                    google-analytics.com
+                                </td>
+                                <td>
+                                    <button class="btn btn-link" id="google-analytics_delete" onclick="deleteRow(this.id)">
+                                        <i class="tim-icons icon-trash-simple" style="color: #e14eca; font: normal normal normal 1.5em/1 'Nucleo';"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </form>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+<script>
+</script>
+
+{% endblock javascripts %}
