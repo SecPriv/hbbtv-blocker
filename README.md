@@ -4,11 +4,29 @@ The following repository contains the code for the HbbTV Blocker presented at ND
 
 ### How to cite the paper:
 ```
-@inproceedings{tagliaro:ndss23:hbbtv,
-  title={{I Still Know What You Watched Last Sunday: Privacy of the HbbTV Protocol in the European Smart TV Landscape}},
-  author={Tagliaro, Carlotta and Hahn, Florian and Sepe, Riccardo and Aceti, Alessio and Lindorfer, Martina},
-  year={2023},
-  booktitle={Proc. of the Network and Distributed System Security Symposium (NDSS)}
+@inproceedings{hbbtv:ndss2023,
+  title     = {{I Still Know What You Watched Last Sunday: Security and Privacy of the HbbTV Protocol in the European Smart TV Landscape}},
+  author    = {Tagliaro, Carlotta and Hahn, Florian and Sepe, Riccardo and Aceti, Alessio and Lindorfer, Martina},
+  booktitle = {Proceedings of the 30th Network and Distributed System Security Symposium (NDSS)},
+  location  = {San Diego, CA, USA},
+  year      = {2023},
+  doi       = {10.14722/ndss.2023.24102}
+}
+```
+
+## LASER
+
+We have further published a paper on the experimental aspects of our work at the Workshop on Learning from Authoritative Security Experiment Results (LASER), February 2023 (co-located with NDSS 2023). The pdf is available in this repository.
+
+### How to cite the paper:
+```
+@inproceedings{hbbtv:laser2023,
+  title     = {{Investigating HbbTV Privacy Invasiveness Across European Countries}},
+  author    = {Tagliaro, Carlotta and Hahn, Florian and Sepe, Riccardo and Aceti, Alessio and Lindorfer, Martina},
+  booktitle = {Proceedings of the Workshop on Learning from Authoritative Security Experiment Results (LASER)},
+  location  = {San Diego, CA, USA},
+  year      = {2023},
+  doi       = {10.14722/laser-ndss.2023.24102}
 }
 ```
 
